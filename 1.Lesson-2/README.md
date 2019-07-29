@@ -7,7 +7,7 @@
 
 How do we select the “right” learning rate to start training our model? This question is a he heavily debated one in deep learning and fast.ai offers a solution based on a paper from Leslie Smith - Cyclical Learning Rates for training Neural Networks.
 
-<p align="center"> <img src="../figures/cyclic_learning_rate.png" width="250"> </p>
+<p align="center"> <img src="https://miro.medium.com/max/450/1*vsXrd010HEYLVfoe2F-ZiQ.png"> </p>
 
 The idea of the paper is quite simple:
 
@@ -16,7 +16,7 @@ The idea of the paper is quite simple:
 * once the loss starts to shoot up again, it is time to stop;
 * we select the highest learning rate we can find, where the loss is still crearly improving (steepest decrease of the loss).
 
-<p align="center"> <img src="../figures/lr_finder.png" width="500"> </p>
+<p align="center"> <img src="https://miro.medium.com/max/500/1*5EdBB9JTXXf-5ccqzDr5Kg.png" width="500"> </p>
 
 In the figure above, we see that when we increase the learning rate beyond a certain treshold, the loss goes up, this is when we stop our training and choose the lr that gave us the steepest decrease of the loss.
 
@@ -28,7 +28,7 @@ In training deep networks, it is usually helpful to anneal the learning rate ove
 * **Exponential decay**. has the mathematical form <img src="https://latex.codecogs.com/gif.latex?$\alpha&space;=&space;\alpha&space;_&space;{&space;0&space;}&space;e&space;^&space;{&space;-&space;k&space;t&space;}$" title="$\alpha = \alpha _ { 0 } e ^ { - k t }$" />, where α0, k are hyperparameters and t is the iteration number (or the epochs).
 * **1/t decay** has the mathematical form <img src="https://latex.codecogs.com/gif.latex?$\alpha&space;=&space;\alpha&space;_&space;{&space;0&space;}&space;/&space;(&space;1&space;&plus;&space;k&space;t&space;)$" title="$\alpha = \alpha _ { 0 } / ( 1 + k t )$" /> where apha0 and k are hyperparameters and t is the iteration number.
 
-<p align="center"> <img src="../figures/lr_annealing.png" width="600"> </p>
+<p align="center"> <img src="https://miro.medium.com/max/1000/1*xmIlOee7PWLc6fa7xdfRkA.png" width="600"> </p>
 
 In practice, we find that the step decay is slightly preferable because the hyperparameters it involves (the fraction of decay and the step timings in units of epochs) are more interpretable than the hyperparameter k. Lastly, if we can afford the computational budget, err on the side of slower decay and train for a longer time.
 
@@ -39,19 +39,19 @@ With lr annealing, we may find ourselves in a part of the weight space that isn�
 
 Here’s a picture of how that might look if we reset the learning rates 3 times (in this paper they call it a “cyclic LR schedule”):
 
-<p align="center"> <img src="../figures/SGDR.png" width="500"> </p>
+<p align="center"> <img src="https://miro.medium.com/max/1000/1*TgAz1qaKu_SzuRmsO-6WGQ.png" width="500"> </p>
 
 From the paper [Snapshot Ensembles](https://arxiv.org/abs/1704.00109)
 
 If we plot the learning rate while using “cyclic LR schedule” we get (the value used in the starting point is the one obtained using learning rate finder:
 
-<p align="center"> <img src="../figures/cyclic_lr.png" width="300"> </p>
+<p align="center"> <img src="https://miro.medium.com/max/445/1*OKmsY6RR0DirLaLU2cIXtQ.png" width="300"> </p>
 
 The number of epochs between resetting the learning rate is set by cycle length, and the number of times this happens is referred to as the number of cycles. so for epochs=3 and cycle_len=1, we'll do three epochs, one with each cycle.
 
 We can also vary the length of each cycle, where we start with small cycles and the cycle length get multiplied each time.
 
-<p align="center"> <img src="../figures/varying_cyclic_lr.png" width="300"> </p>
+<p align="center"> <img src="https://miro.medium.com/max/700/1*SA5MA3z-jOBwvzF2e6-E6Q.png" width="300"> </p>
 
 In the figure above, we do three cycles, the original length of the cycle is one epoch, and given that we multiply each time the length by two, we'll get 1 + 2 + 4 = 7 epochs in the end.
 
@@ -69,7 +69,7 @@ Generally speaking, the earlier layers have more general-purpose features. There
 
 And we can see that this kind of approach help us find better local minimas with smaller losses.
 
-<p align="center"> <img src="../figures/loss_with_cyclic_lr.png" width="300"> </p>
+
 
 ##  5. <a name='CyclingLearningRate'></a>Cycling Learning Rate
 
@@ -77,7 +77,7 @@ And we can see that this kind of approach help us find better local minimas with
 
 Typically seen in SGD, a single LR is set at the beginning of the training, and an LR decay strategy is set (step, exponential etc.). This single LR is used to update all parameters. It is gradually decayed with each epoch with the assumption that with time, we reach near to the desired minima, upon which we need to slow down the updates so as not to overshoot it.
 
-<p align="center"> <img src="../figures/Lr_levels.jpeg" width="200"> </p>)
+<p align="center"> <img src="http://teleported.in/post_imgs/15-learningrates.jpeg" width="200"> </p>)
 
 There are many challenges to this approach:
 
@@ -88,7 +88,7 @@ There are many challenges to this approach:
 
 ###  5.2. <a name='AdaptiveLRforeachparameter'></a>Adaptive LR for each parameter
 Improved optimizers like AdaGrad, AdaDelta, RMSprop and Adam alleviate much of the above challenges by adapting learning rates for each parameters being trained. With Adadelta, we do not even need to set a default learning rate, as it has been eliminated from the update rule.
-<p align="center"> <img src="../figures/adaptative_lr.gif" width="300"> </p>)
+<p align="center"> <img src="http://teleported.in/post_imgs/15-Beale.gif" width="300"> </p>)
 
 ###  5.3. <a name='CyclingLearningRate-1'></a>Cycling Learning Rate
 
@@ -102,7 +102,7 @@ As far as intuition goes, conventional wisdom says we have to keep decreasing th
 
 However, counterintuitively it might be useful to periodically vary the LR between a lower and higher threshold. The reasoning is that the periodic higher learning rates within the training help the model come out of any local minimas or saddle points if it ever enters into one, given that the difficulty in minimizing the loss arises from saddle points rather than poor local minima. If the saddle point happens to be an elaborate plateau, lower learning rates can never generate enough gradient to come out of it (or will take enormous time). That’s where periodic higher learning rates help with more rapid traversal of the surface.
 
-<p align="center"> <img src="../figures/saddle_points.png" width="300"> </p>)
+<p align="center"> <img src="http://teleported.in/post_imgs/15-saddlepoint.png" width="300"> </p>)
 
 A second benefit is that the optimal LR appropriate for the error surface of the model will in all probability lie between the lower and higher bounds as discussed above. Hence we do get to use the best LR when amortized over time.
 
@@ -112,7 +112,7 @@ An epoch is one run of the training algorithm across the entire training set. If
 
 With that in mind, a cycle is defined as that many iterations where we want our learning rate to go from a base learning rate to a max learning rate, and back. And a stepsize is half of a cycle. Note that a cycle, in this case, need not fall on the boundary of an epoch, though in practice it does.
 
-<p align="center"> <img src="../figures/triangular_lr.png" width="300"> </p>)
+<p align="center"> <img src="http://teleported.in/post_imgs/15-clr-triangle.png" width="300"> </p>)
 
 In the above diagram, we set a base lr and max lr for the algorithm, demarcated by the red lines. The blue line suggests the way learning rate is modified (in a triangular fashion), with the x-axis being the iterations. A complete up and down of the blue line is one cycle. And stepsize is half of that.
 
