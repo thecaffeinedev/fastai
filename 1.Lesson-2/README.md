@@ -63,7 +63,6 @@ When using a pretrained model, we can freeze the weights of all the previous lay
 
 Now if we want to fine tune the earlier layers to be more specific to our dataset, and only detect the fetures that will actualy help us, we can use diffent learning rates for each layers.
 
-In other words, for cat/dogs dataset, the previous layers have *already* been trained to recognize imagenet photos (whereas our final layers where randomly initialized), so we want to be careful of not destroying the carefully tuned weights that are already there.
 
 Generally speaking, the earlier layers have more general-purpose features. Therefore we would expect them to need less fine-tuning for new datasets. For this reason we will use different learning rates for different layers: the first few layers will be at say 1e-4, the middle layers at 1e-3, and our FC layers we'll leave at 1e-2, which is the same learning rate we got with the learning rate finder `lr=np.array([1e-4,1e-3,1e-2])`.
 
